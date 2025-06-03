@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: laravel-app
+    container_name: laravel-app
+    working_dir: /var/www
+    volumes:
+      - .:/var/www
+    environment:
+      DB_HOST: "${DB_HOST}"
+      DB_PORT: "${DB_PORT}"
+      DB_DATABASE: "${DB_DATABASE}"
+      DB_USERNAME: "${DB_USERNAME}"
+      DB_PASSWORD: "${DB_PASSWORD}"
+      REDIS_HOST: "${REDIS_HOST}"
+    ports:
+      - "9000:9000"
+    depends_on:
+      - saas_app_mysql
+      - saas_app_redis
+
+  saas_app_nginx:
+    image: nginx:stable-alpine
+    container_name: saas_app_nginx
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - app
+
+  saas_app_mysql:
+    image: mysql:8.0
+    container_name: saas_app_mysql
+    ports:
+      - "8800:3306"
+    environment:
+      MYSQL_DATABASE: "${DB_DATABASE}"
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: "${DB_USERNAME}"
+      MYSQL_PASSWORD: "${DB_PASSWORD}"
+    volumes:
+      - ./mysql_data:/var/lib/mysql
+
+  saas_app_redis:
+    image: redis:alpine
+    container_name: saas_app_redis
+    ports:
+      - "6381:6379"
+
+volumes:
+  mysql_data:

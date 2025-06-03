@@ -19,8 +19,11 @@
 /storage/*.key
 /storage/pail
 /vendor
+/mysql_data
 Homestead.json
 Homestead.yaml
 npm-debug.log
 Thumbs.db
 yarn-error.log
+supervisord.pid
+supervisord.log
