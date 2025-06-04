@@ -4,6 +4,7 @@ RUN apk add --no-cache \
     git curl zip unzip bash \
     libzip-dev libpng-dev libxml2-dev oniguruma-dev \
     mysql-client gcc g++ make autoconf libc-dev libffi-dev \
+    nodejs npm \
     && docker-php-ext-install pdo pdo_mysql zip
 
 RUN pecl install redis && docker-php-ext-enable redis
@@ -15,6 +16,8 @@ WORKDIR /var/www
 COPY . .
 
 RUN composer install --optimize-autoloader --no-interaction
+
+RUN npm install && npm run build
 
 RUN chown -R www-data:www-data /var/www \
     && chmod -R 775 storage bootstrap/cache
