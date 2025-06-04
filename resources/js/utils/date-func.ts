@@ -8,3 +8,12 @@ export const formatDate = (dateString: string): string => {
 
     return `${month}/${day}/${year}`
 }
+
+export function formatSelectedMonth(month: number | null): number | null {
+    if (month === null) return null;
+    return month + 1;
+}
+
+export function getSelectedYear(month: number | null, year: number): number | null {
+    return month !== null ? year : null;
+}

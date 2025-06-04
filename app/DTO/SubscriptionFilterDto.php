@@ -13,6 +13,7 @@ class SubscriptionFilterDto
     public ?float $priceMin;
     public ?float $priceMax;
     public ?string $activeMonth;
+    public ?string $year;
     public ?int $top;
 
     public function __construct(array $data)
@@ -27,6 +28,7 @@ class SubscriptionFilterDto
         $this->priceMax = isset($data['price_max']) ? (float)$data['price_max'] : null;
 
         $this->activeMonth = $data['active_month'] ?? null;
+        $this->year = $data['selected_year'] ?? null;
         $this->top = isset($data['top']) ? (int)$data['top'] : null;
     }
 }

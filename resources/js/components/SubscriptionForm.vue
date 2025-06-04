@@ -21,7 +21,7 @@ const router = useRouter()
 
 const form = ref<Subscription>({
   name: '',
-  price: 0,
+  price: 1,
   currency: 'USD',
   billing_frequency: 'monthly',
   start_date: new Date().toISOString().substring(0, 10),
@@ -62,7 +62,7 @@ watch(
 <template>
   <v-form @submit.prevent="submitForm">
     <v-text-field label="Name" v-model="form.name" required />
-    <v-text-field label="Price" v-model.number="form.price" min="0" type="number" required />
+    <v-text-field label="Price" v-model.number="form.price" min="1" type="number" required />
     <v-select
         label="Currency"
         :items="currencyOptions"

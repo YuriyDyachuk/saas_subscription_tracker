@@ -56,16 +56,17 @@ class Subscription extends Model
         return $query;
     }
 
-    public function scopeActiveInMonth(Builder $query, ?string $yearMonth): Builder
+    public function scopeActiveInMonth($query, $year, $month)
     {
-        if (!$yearMonth) {
+        if (!$month) {
             return $query;
         }
 
-        $startOfMonth = \Carbon\Carbon::parse($yearMonth . '-01')->startOfMonth();
-        $endOfMonth = (clone $startOfMonth)->endOfMonth();
+        $month = str_pad($month, 2, '0', STR_PAD_LEFT);
+        $startOfMonth = "$year-$month-01";
+        $endOfMonth = date('Y-m-t', strtotime($startOfMonth));
 
-        return $query->where('start_date', '<=', $endOfMonth);
+        return $query->whereBetween('start_date', [$startOfMonth, $endOfMonth]);
     }
 
     /* Accessors */

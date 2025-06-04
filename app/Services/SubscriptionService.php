@@ -20,7 +20,7 @@ class SubscriptionService
             ->search($filters->search)
             ->frequency($filters->frequency)
             ->priceBetween($filters->priceMin, $filters->priceMax)
-            ->activeInMonth($filters->activeMonth)
+            ->activeInMonth($filters->year, $filters->activeMonth)
             ->sortByColumn($filters->sortBy, $filters->sortOrder);
 
         return $query->paginate($filters->perPage);

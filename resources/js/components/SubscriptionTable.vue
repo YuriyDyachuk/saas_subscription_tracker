@@ -18,6 +18,8 @@ const loading = ref<boolean>(false)
 const selectedFrequency = ref<string | null>(null)
 const priceMin = ref<number | null>(null)
 const priceMax = ref<number | null>(null)
+const selectedMonth = ref<number | null>(null)
+const selectedYear = ref<number>(new Date().getFullYear())
 
 const options = ref({
   page: 1,
@@ -32,8 +34,20 @@ function onCurrencyChange(newCurrency: string) {
   baseCurrency.value = newCurrency
 }
 
+function onMonthChange(val: number) {
+  selectedMonth.value = val
+}
+
 function getApiParams() {
   const sortBy = options.value.sortBy?.[0]
+
+  /*
+  * TODO: add more params
+  * const activeMonth = formatSelectedMonth(selectedMonth.value)
+  * const selectedYearValue = getSelectedYear(selectedMonth.value, selectedYear.value)
+  * active_month: activeMonth,
+  * selected_year: selectedYearValue,
+  * */
 
   return {
     page: options.value.page,
@@ -157,7 +171,7 @@ onMounted(() => {
   </VCard>
 
   <VCard class="mb-6 pa-4">
-    <div class="d-flex flex-wrap gap-4 align-center">
+    <div class="d-flex flex-wrap gap-4 align-start">
 
       <v-select
           label="Filter by Frequency"
@@ -187,7 +201,19 @@ onMounted(() => {
           dense
           style="max-width: 150px"
       />
+
+      <div class="ma-4">
+        <h5>Monthly Activity Filter</h5>
+        <v-date-picker-months
+            v-model="selectedMonth"
+            @update:model-value="onMonthChange"
+            year-icon="mdi-calendar-blank"
+            prev-icon="mdi-skip-previous"
+            next-icon="mdi-skip-next"
+        ></v-date-picker-months>
+      </div>
     </div>
+
   </VCard>
 
   <VCardText>
@@ -227,3 +253,9 @@ onMounted(() => {
     </template>
   </v-data-table-server>
 </template>
+
+<style lang="scss">
+.v-date-picker-months__content {
+  grid-template-columns: repeat(4, 1fr) !important;
+}
+</style>

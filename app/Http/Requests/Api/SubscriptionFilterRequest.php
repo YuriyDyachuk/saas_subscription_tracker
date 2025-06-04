@@ -21,10 +21,11 @@ class SubscriptionFilterRequest extends FormRequest
             'per_page' => ['nullable', 'integer', 'min:1'],
 
             'frequency' => ['nullable', 'string', 'in:daily,weekly,monthly,yearly'],
-            'price_min' => ['nullable', 'numeric', 'min:0'],
-            'price_max' => ['nullable', 'numeric', 'min:0'],
+            'price_min' => ['nullable', 'numeric', 'min:1'],
+            'price_max' => ['nullable', 'numeric', 'min:1'],
 
-            'active_month' => ['nullable', 'string', 'regex:/^\d{4}-\d{2}$/'],
+            'active_month' => ['nullable', 'string'],
+            'selected_year' => ['nullable', 'string', 'regex:/^\d{4}$/'],
             'top' => ['nullable', 'integer', 'min:1'],
         ];
     }
