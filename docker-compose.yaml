@@ -19,6 +19,7 @@ services:
       REDIS_HOST: "${REDIS_HOST}"
     ports:
       - "9000:9000"
+      - "5173:5173"
     depends_on:
       - saas_app_mysql
       - saas_app_redis

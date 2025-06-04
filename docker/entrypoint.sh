@@ -16,12 +16,22 @@ if [ ! -d vendor ]; then
   composer install --optimize-autoloader --no-interaction
 fi
 
-php artisan config:clear
+if [ ! -d node_modules ]; then
+  echo "installing NPM dependencies..."
+  npm install
+fi
 
+echo "running Vite dev server in background..."
+npm run dev -- --host 0.0.0.0 &
+
+php artisan config:clear
 php artisan key:generate
 
+chmod -R 777 storage
+
 php artisan migrate --force
+php artisan db:seed
 php artisan optimize
 
-echo "started supervisord"
+echo "Starting supervisord..."
 exec supervisord -c /etc/supervisord.conf

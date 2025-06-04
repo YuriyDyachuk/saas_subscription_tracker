@@ -23,7 +23,7 @@
     ```bash
     docker-compose up --build
     ```
-
+  
 - **Open the web interface**:
     ```
     http://localhost:8080
